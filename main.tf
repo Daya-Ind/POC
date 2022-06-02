@@ -1,6 +1,6 @@
 module "resourcegroup"  {
   source    ="./modules/resourcegroup"
   name      ="Testing"
-  location  ="East US"
+  location  ="East Europe"
 }
 
