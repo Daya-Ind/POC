@@ -1,9 +1,9 @@
-variable "resource_group_name" {
+variable "group_name" {
   type        = string
   description = "RG name in Azure"
 }
 
-variable "resource_group_location" {
+variable "group_location" {
   type        = string
   description = "RG location in Azure"
 }
