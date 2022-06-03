@@ -1,5 +1,3 @@
-# src: https://github.com/Azure/terraform-azurerm-vnet/blob/master/main.tf
-#Azure Generic vNet Module
 data "azurerm_resource_group" "vnet" {
   name = var.resource_group_name
 }
