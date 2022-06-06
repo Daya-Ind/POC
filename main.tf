@@ -29,3 +29,18 @@ module "blob" {
 
   depends_on = [azurerm_resource_group.rg2]
 }
+
+#######################ADF
+resource "azurerm_resource_group" "rg3" {
+  name     = "my-adf-resources"
+  location = "West Europe"
+}
+
+module "ADF" {
+  source              = "./modules/ADF"
+  name                = "myadf1"
+  resource_group_name = azurerm_resource_group.rg3.name
+  location               = azurerm_resource_group.rg3.location
+
+  depends_on = [azurerm_resource_group.rg3]
+}
