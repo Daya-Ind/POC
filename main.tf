@@ -38,7 +38,7 @@ resource "azurerm_resource_group" "rg3" {
 
 module "ADF" {
   source              = "./modules/ADF"
-  name                = "myadf1"
+  name                = "my-adf-2022-6"
   resource_group_name = azurerm_resource_group.rg3.name
   location               = azurerm_resource_group.rg3.location
 
