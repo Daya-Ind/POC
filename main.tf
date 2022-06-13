@@ -1,44 +1,47 @@
-resource "azurerm_resource_group" "rg1" {
-  name     = "my-Vnet-resources"
-  location = "West Europe"
-}
+# resource "azurerm_resource_group" "rg1" {
+#   name     = "my-Vnet-resources"
+#   location = "West Europe"
+# }
 
-module "vnet" {
-  source              = "./modules/vnet"
-  resource_group_name = azurerm_resource_group.rg1.name
-  address_space       = ["10.0.0.0/16"]
-  subnet_prefixes     = ["10.0.1.0/24","10.0.2.0/24","10.0.3.0/24"]
-  subnet_names        = ["subnet1","subnet2","subnet3"]
+# module "vnet" {
+#   source              = "./modules/vnet"
+#   resource_group_name = azurerm_resource_group.rg1.name
+#   address_space       = ["10.0.0.0/16"]
+#   subnet_prefixes     = ["10.0.1.0/24","10.0.2.0/24","10.0.3.0/24"]
+#   subnet_names        = ["subnet1","subnet2","subnet3"]
 
-  depends_on = [azurerm_resource_group.rg1]
-}
+#   depends_on = [azurerm_resource_group.rg1]
+# }
 
-##--------Create blob storage------####
+# ##--------Create blob storage------####
 
-resource "azurerm_resource_group" "rg2" {
-  name     = "my-blob-resources"
-  location = "West Europe"
-}
+# resource "azurerm_resource_group" "rg2" {
+#   name     = "my-blob-resources"
+#   location = "West Europe"
+# }
  
-module "blob" {
-  source              = "./modules/blob"
-  resource_group_name = azurerm_resource_group.rg2.name
-  location               = "West Europe"
-  storage_account_name   = "mystore30th"
-  storage_container_name = "my-files"
+# module "blob" {
+#   source              = "./modules/blob"
+#   resource_group_name = azurerm_resource_group.rg2.name
+#   location               = "West Europe"
+#   storage_account_name   = "mystore30th"
+#   storage_container_name = "my-files"
 
-  depends_on = [azurerm_resource_group.rg2]
-}
+#   depends_on = [azurerm_resource_group.rg2]
+# }
 
 #######################ADF
+resource "random_id" "storage_account" {
+  byte_length = 8
+}
 resource "azurerm_resource_group" "rg3" {
-  name     = "my-adf-resources"
+  name     ="rg${lower(random_id.storage_account.hex)}"
   location = "West Europe"
 }
 
 module "ADF" {
   source              = "./modules/ADF"
-  name                = "my-adf-2022-6"
+  name                ="adf${lower(random_id.storage_account.hex)}"
   resource_group_name = azurerm_resource_group.rg3.name
   location               = azurerm_resource_group.rg3.location
 
