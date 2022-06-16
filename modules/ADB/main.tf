@@ -14,26 +14,16 @@
 #   default = "westus"
 # }
 
-# resource "random_string" "naming" {
-#   special = false
-#   upper   = false
-#   length  = 6
-# }
+resource "random_string" "naming" {
+  special = false
+  upper   = false
+  length  = 6
+}
 
 data "azurerm_client_config" "current" {
 }
 
-data "external" "me" {
-  program = ["az", "account", "show", "--query", "user"]
-}
 
-locals {
-  prefix = "shelltfpoc${random_string.naming.result}"
-  tags = {
-    Environment = "Demo"
-    Owner       = lookup(data.external.me.result, "name")
-  }
-}
 
 # resource "azurerm_resource_group" "this" {
 #   name     = "${local.prefix}-rg"
@@ -52,12 +42,12 @@ locals {
 # }
 
 resource "azurerm_databricks_workspace" "this" {
-  name                        = var.name
-  resource_group_name         = var.resource_group_name
-  location                    = var.location
+  name                        = var.adb_name
+  resource_group_name         = var.adb_resource_group_name
+  location                    = var.adb_location
   sku                         = "premium"
-  managed_resource_group_name = var.managed_resource_group_name
-  tags                        = local.tags
+  managed_resource_group_name = var.adb_managed_resource_group_name
+  # tags                        = var.tags_name
 
  }
 

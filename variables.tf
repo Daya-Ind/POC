@@ -11,3 +11,11 @@ variable "adf_Prefix" {
   type        = string
   description = "adf name in Azure"
 }
+variable "adb_Prefix" {
+  type        = string
+  description = "adf name in Azure"
+}
+variable "adb_managedRecoucegroup" {
+  type        = string
+  description = "adf name in Azure"
+}
