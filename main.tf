@@ -30,20 +30,30 @@
 #   depends_on = [azurerm_resource_group.rg2]
 # }
 
-#######################ADF
-resource "random_id" "storage_account" {
-  byte_length = 8
+
+#######Naming
+resource "random_string" "naming" {
+  special = false
+  upper   = false
+  length  = 6
 }
+#######################ADF
+
+
 resource "azurerm_resource_group" "rg3" {
-  name     ="rg${lower(random_id.storage_account.hex)}"
-  location = "West Europe"
+  name     ="${var.group_name}${lower(random_string.naming.result)}"
+  location =var.group_location
 }
 
 module "ADF" {
   source              = "./modules/ADF"
-  name                ="adf${lower(random_id.storage_account.hex)}"
-  resource_group_name = azurerm_resource_group.rg3.name
-  location               = azurerm_resource_group.rg3.location
+  name_adf            = "${var.adf_Prefix}${random_string.naming.result}"
+  resource_group      = azurerm_resource_group.rg3.name
+  location_name       = azurerm_resource_group.rg3.location
 
-  depends_on = [azurerm_resource_group.rg3]
+  depends_on          = [azurerm_resource_group.rg3]
 }
+
+ 
+
+############ADB
